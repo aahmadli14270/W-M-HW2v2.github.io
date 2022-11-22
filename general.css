@@ -1,0 +1,111 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  /* 10px / 16px = 0.625 = 62.5%  */
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  line-height: 1;
+  font-weight: 400;
+  background-color: #212529;
+
+  /* letter-spacing: -3px; */
+}
+.main-container {
+  /* margin-top: 5rem; */
+  height: 100rem;
+}
+.main-header {
+  max-width: 120rem;
+  margin: 0 auto;
+  margin-bottom: 3rem;
+  margin-top: 2rem;
+  /* height: 3rem; */
+}
+
+.nav-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  justify-items: center;
+  padding: 2rem 0;
+}
+
+.list-item {
+  list-style: none;
+}
+
+.gray-color {
+  background-color: #343a40;
+}
+.user-location {
+  width: 125rem;
+  height: 40rem;
+  margin: 0 auto;
+  border-radius: 3rem;
+  margin-bottom: 4rem;
+  display: grid;
+  align-items: center;
+}
+
+.flex-columns-container {
+  /* display: flex;
+  direction: row; */
+  /* justify-content: space-around; */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 30rem;
+
+  /* gap: 3rem; */
+}
+
+.user-columns {
+  /* background-color: #212529; */
+  /* width: 10rem;
+  height: 20rem; */
+  /* padding-left: 20rem;
+  padding-right: 20rem; */
+}
+
+.border-right {
+  border-right: solid 3px #212529;
+}
+
+.famous-locations {
+  width: 118rem;
+  margin: 0 auto;
+  border-radius: 2.5rem;
+  padding: 3rem 0;
+}
+
+.cards-container {
+  width: 110rem;
+  margin: 0rem auto;
+}
+
+.cards {
+  /* display: flex;
+  direction: row;
+  justify-content: space-around; */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+  justify-content: center;
+  align-content: center;
+  /* gap: 3rem; */
+  /* padding-bottom: 100rem; */
+}
+.cntry {
+  height: 25rem;
+  width: 16rem;
+  justify-self: center;
+  /* margin-top: 3rem; */
+
+  background-color: #212529;
+  border-radius: 2.5rem;
+}
