@@ -58,7 +58,7 @@ body {
   direction: row; */
   /* justify-content: space-around; */
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 0.8fr;
   height: 30rem;
 
   /* gap: 3rem; */
