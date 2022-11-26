@@ -124,3 +124,18 @@ body {
   width: 10rem;
   height: 10rem;
 }
+
+.secondary-weather-details {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+.day {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.img-degree-container {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr;
+  justify-content: center;
+  align-items: center;
+}

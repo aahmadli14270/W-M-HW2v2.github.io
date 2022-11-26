@@ -61,4 +61,33 @@ function weatherGenerator(data) {
     `;
 
   mainDetails.innerHTML = templateHTML;
+  const secondaryDetails = document.querySelector(".secondary-weather-details");
+
+  let templateHTMLsecondary = `
+            <div class="day">
+              <h1>Tomorrow, Nov 26</h1>
+              <div class="img-degree-container">
+                <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${data.current.weather[0].icon}@4x.png" alt = "${data.current.weather[0].description}"/>
+                <p>13/8°C</p>
+              </div>
+              <p>light rain</p>
+            </div>
+            <div class="day">
+              <h1>Tomorrow, Nov 26</h1>
+              <div class="img-degree-container">
+                <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${data.current.weather[0].icon}@4x.png" alt = "${data.current.weather[0].description}"/>
+                <p>13/8°C</p>
+              </div>
+              <p>light rain</p>
+            </div>
+            <div class="day">
+              <h1>Tomorrow, Nov 26</h1>
+              <div class="img-degree-container">
+                <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${data.current.weather[0].icon}@4x.png" alt = "${data.current.weather[0].description}"/>
+                <p>13/8°C</p>
+              </div>
+              <p>light rain</p>
+            </div>
+  `;
+  secondaryDetails.innerHTML = templateHTMLsecondary;
 }
