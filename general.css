@@ -109,3 +109,18 @@ body {
   background-color: #212529;
   border-radius: 2.5rem;
 }
+
+.main-weather-details {
+  /* display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr; */
+}
+.property {
+  font-size: 1.6rem;
+  color: #ced4da;
+  margin-bottom: 2rem;
+}
+
+.cloud-img {
+  width: 10rem;
+  height: 10rem;
+}
