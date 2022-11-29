@@ -69,8 +69,19 @@ const dayNames = [
 ];
 
 console.log(date3D);
+
 navigator.geolocation.getCurrentPosition(
   function (position) {
+    const flexColumn = document.querySelector(".flex-columns-container");
+
+    flexColumn.classList.add("flex-columns-container-addup");
+    flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
+          <div
+            class="user-columns border-right secondary-weather-details"
+          ></div>
+          <div class="user-columns" id="map"></div>
+        </div>`;
+
     // console.log(position);
     const { latitude } = position.coords;
     const { longitude } = position.coords;
@@ -133,7 +144,7 @@ function weatherGenerator(data) {
   const secondaryDetails = document.querySelector(".secondary-weather-details");
 
   let templateHTMLsecondary = `
- 
+
             <div class="day">
               <h1 class="date">${
                 dayNames[tomorrow.getDay()] +
@@ -208,7 +219,6 @@ function weatherGenerator(data) {
               </div>
             </div>
 
-
             <div class="day">
             <h1 class="date">${
               dayNames[tomorrowplusplus.getDay()] +
@@ -246,29 +256,28 @@ function weatherGenerator(data) {
           </div>
 
   `;
-
-  //
-  //   let units1 = "metric";
-  //   let lang1 = "en";
-  //   let key1 = "5209b666803238e6492b0f84bb620f41";
-  //   let url1 = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.results[0].geometry.location.lat}&lon=${data.results[0].geometry.location.lng}&appid=${key1}&units=${units1}&lang=${lang1}`;
-
-  //   fetch(url1)
-  //     .then((response) => {
-  //       if (!response.ok) throw new Error(response.statusText);
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       //weatherGenerator(data);
-  //     })
-  //     .catch(console.err);
-  // })
-
-  // AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs
-
   secondaryDetails.innerHTML = templateHTMLsecondary;
 }
+
+//
+//   let units1 = "metric";
+//   let lang1 = "en";
+//   let key1 = "5209b666803238e6492b0f84bb620f41";
+//   let url1 = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.results[0].geometry.location.lat}&lon=${data.results[0].geometry.location.lng}&appid=${key1}&units=${units1}&lang=${lang1}`;
+
+//   fetch(url1)
+//     .then((response) => {
+//       if (!response.ok) throw new Error(response.statusText);
+//       return response.json();
+//     })
+//     .then((data) => {
+//       console.log(data);
+//       //weatherGenerator(data);
+//     })
+//     .catch(console.err);
+// })
+
+// AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs
 
 // WITH NAME
 // fetch(
