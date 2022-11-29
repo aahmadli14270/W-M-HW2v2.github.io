@@ -47,6 +47,26 @@ searchbutton1.addEventListener("click", (e) => {
         data.results[0].geometry.location.lat,
         data.results[0].geometry.location.lng
       );
+      const map = L.map("map").setView(
+        [
+          data.results[0].geometry.location.lat,
+          data.results[0].geometry.location.lng,
+        ],
+        6
+      );
+
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      L.marker([
+        data.results[0].geometry.location.lat,
+        data.results[0].geometry.location.lng,
+      ])
+        .addTo(map)
+        .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
+        .openPopup();
     })
     .catch(console.err);
 });
@@ -56,6 +76,14 @@ searchbutton.addEventListener("click", (e) => {
   searchforAPI = searchbar.value;
   let template = searchforAPI.replaceAll(" ", "+");
   console.log(searchforAPI.replaceAll(" ", "+"));
+  flexColumn.classList.add("flex-columns-container-addup");
+  flexColumn.classList.remove("flex-columns-container-before");
+  flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
+          <div
+            class="user-columns border-right secondary-weather-details"
+          ></div>
+          <div class="user-columns" id="map"></div>
+        </div>`;
 
   fetch(
     `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
@@ -70,6 +98,26 @@ searchbutton.addEventListener("click", (e) => {
         data.results[0].geometry.location.lat,
         data.results[0].geometry.location.lng
       );
+      const map = L.map("map").setView(
+        [
+          data.results[0].geometry.location.lat,
+          data.results[0].geometry.location.lng,
+        ],
+        6
+      );
+
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      L.marker([
+        data.results[0].geometry.location.lat,
+        data.results[0].geometry.location.lng,
+      ])
+        .addTo(map)
+        .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
+        .openPopup();
     })
     .catch(console.err);
 });
@@ -180,7 +228,7 @@ function weatherGenerator(data) {
 
           <div class="day">
             <h1 class="date">${
-              dayNames[tomorrow.getDay()] +
+              dayNames[tomorrow.getDay() - 1] +
               ", " +
               tomorrow.getDate() +
               " " +
@@ -215,7 +263,7 @@ function weatherGenerator(data) {
           </div>
           <div class="day">
             <h1 class="date">${
-              dayNames[tomorrowplus.getDay()] +
+              dayNames[tomorrowplus.getDay() - 1] +
               ", " +
               tomorrowplus.getDate() +
               " " +
@@ -253,7 +301,7 @@ function weatherGenerator(data) {
 
           <div class="day">
           <h1 class="date">${
-            dayNames[tomorrowplusplus.getDay()] +
+            dayNames[tomorrowplusplus.getDay() - 1] +
             ", " +
             tomorrowplusplus.getDate() +
             " " +
