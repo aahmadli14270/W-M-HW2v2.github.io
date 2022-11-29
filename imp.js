@@ -5,8 +5,10 @@ const temp = new Date();
 const tomorrow = new Date();
 
 const tomorrowplus = new Date();
+const tomorrowplusplus = new Date();
 tomorrow.setDate(temp.getDate() + 1);
 tomorrowplus.setDate(temp.getDate() + 2);
+tomorrowplusplus.setDate(temp.getDate() + 3);
 
 const monthNames = [
   "January",
@@ -97,6 +99,121 @@ function weatherGenerator(data) {
   mainDetails.innerHTML = templateHTML;
   const secondaryDetails = document.querySelector(".secondary-weather-details");
 
+  let templateHTMLsecondary = `
+ 
+            <div class="day">
+              <h1 class="date">${
+                dayNames[tomorrow.getDay()] +
+                ", " +
+                tomorrow.getDate() +
+                " " +
+                monthNames[tomorrow.getMonth()]
+              }</h1>
+              <div class="details">
+                <!-- <p class="detail">Feels like 7°C. Light rain. Light breeze</p> -->
+                <p class="detail">Humidity:  ${
+                  data.daily[tomorrow.getDay()].humidity
+                }%</p>
+                <p class="detail">Pressure: ${
+                  data.daily[tomorrow.getDay()].pressure
+                } hPa</p>
+                <p class="detail">Clouds: ${
+                  data.daily[tomorrow.getDay()].clouds
+                }%</p>
+                <p class="detail">Wind: ${
+                  data.daily[tomorrow.getDay()].wind_speed
+                } m/s NNW</p>
+                <!-- <p class="detail">UV: 0</p> -->
+              </div>
+              <div class="img-degree-container">
+              <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
+                data.daily[tomorrow.getDay()].weather[0].icon
+              }@4x.png" alt = "${
+    data.daily[tomorrow.getDay()].weather[0].description
+  }"/>
+  <p class="temp">${Math.round(
+    data.daily[tomorrow.getDay()].temp.day
+  )} / ${Math.round(data.daily[tomorrow.getDay()].temp.night)} °C</p>
+              </div>
+            </div>
+            <div class="day">
+              <h1 class="date">${
+                dayNames[tomorrowplus.getDay()] +
+                ", " +
+                tomorrowplus.getDate() +
+                " " +
+                monthNames[tomorrowplus.getMonth()]
+              }</h1>
+
+              <div class="details">
+                <!-- <p class="detail">Feels like 7°C. Light rain. Light breeze</p> -->
+                <p class="detail">Humidity:  ${
+                  data.daily[tomorrowplus.getDay()].humidity
+                }%</p>
+                <p class="detail">Pressure: ${
+                  data.daily[tomorrowplus.getDay()].pressure
+                } hPa</p>
+                <p class="detail">Clouds: ${
+                  data.daily[tomorrowplus.getDay()].clouds
+                }%</p>
+                <p class="detail">Wind: ${
+                  data.daily[tomorrowplus.getDay()].wind_speed
+                } m/s SSE</p>
+                <!-- <p class="detail">UV: 0</p> -->
+              </div>
+              <div class="img-degree-container">
+              <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
+                data.daily[tomorrowplus.getDay()].weather[0].icon
+              }@4x.png" alt = "${
+    data.daily[tomorrowplus.getDay()].weather[0].description
+  }"/>
+                <p class="temp">${Math.round(
+                  data.daily[tomorrowplus.getDay()].temp.day
+                )} / ${Math.round(
+    data.daily[tomorrowplus.getDay()].temp.night
+  )} °C</p>
+              </div>
+            </div>
+
+
+            <div class="day">
+            <h1 class="date">${
+              dayNames[tomorrowplusplus.getDay()] +
+              ", " +
+              tomorrowplusplus.getDate() +
+              " " +
+              monthNames[tomorrowplusplus.getMonth()]
+            }</h1>
+            <div class="details">
+              <!-- <p class="detail">Feels like 7°C. Light rain. Light breeze</p> -->
+              <p class="detail">Humidity:  ${
+                data.daily[tomorrowplusplus.getDay()].humidity
+              }%</p>
+              <p class="detail">Pressure: ${
+                data.daily[tomorrowplusplus.getDay()].pressure
+              } hPa</p>
+              <p class="detail">Clouds: ${
+                data.daily[tomorrowplusplus.getDay()].clouds
+              }%</p>
+              <p class="detail">Wind: ${
+                data.daily[tomorrowplusplus.getDay()].wind_speed
+              } m/s WSW</p>
+              <!-- <p class="detail">UV: 0</p> -->
+            </div>
+            <div class="img-degree-container">
+            <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
+              data.daily[tomorrowplusplus.getDay()].weather[0].icon
+            }@4x.png" alt = "${
+    data.daily[tomorrowplusplus.getDay()].weather[0].description
+  }"/>
+  <p class="temp">${Math.round(
+    data.daily[tomorrowplusplus.getDay()].temp.day
+  )} / ${Math.round(data.daily[tomorrowplusplus.getDay()].temp.night)} °C</p>
+            </div>
+          </div>
+
+  `;
+
   // let templateHTMLsecondary = `
   //           <div class="day">
   //             <h1>${
@@ -155,5 +272,5 @@ function weatherGenerator(data) {
   //             </div>
   //           </div>
   // `;
-  // secondaryDetails.innerHTML = templateHTMLsecondary;
+  secondaryDetails.innerHTML = templateHTMLsecondary;
 }
