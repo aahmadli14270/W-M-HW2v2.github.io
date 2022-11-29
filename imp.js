@@ -10,6 +10,7 @@ tomorrow.setDate(temp.getDate() + 1);
 tomorrowplus.setDate(temp.getDate() + 2);
 tomorrowplusplus.setDate(temp.getDate() + 3);
 
+const flag = 0;
 const monthNames = [
   "January",
   "February",
@@ -214,63 +215,42 @@ function weatherGenerator(data) {
 
   `;
 
-  // let templateHTMLsecondary = `
-  //           <div class="day">
-  //             <h1>${
-  //               dayNames[date3D.getDay()] +
-  //               ", " +
-  //               date3D.getDate() +
-  //               " " +
-  //               monthNames[date3D.getMonth()]
-  //             }</h1>
-  //             <p>${data.current.weather[0].description}</p>
-  //             <div class="img-degree-container">
-  //               <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
-  //                 data.current.weather[0].icon
-  //               }@4x.png" alt = "${data.current.weather[0].description}"/>
-  //               <p class = "day-description">${
-  //                 data.daily[date3D.getDay()].temp.day
-  //               }/${data.daily[date3D.getDay()].temp.night}°C</p>
-  //             </div>
-  //           </div>
+  //
+  //   let units1 = "metric";
+  //   let lang1 = "en";
+  //   let key1 = "5209b666803238e6492b0f84bb620f41";
+  //   let url1 = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.results[0].geometry.location.lat}&lon=${data.results[0].geometry.location.lng}&appid=${key1}&units=${units1}&lang=${lang1}`;
 
-  //           <div class="day">
-  //             <h1>${
-  //               dayNames[tomorrow.getDay()] +
-  //               ", " +
-  //               tomorrow.getDate() +
-  //               " " +
-  //               monthNames[tomorrow.getMonth()]
-  //             }</h1>
-  //             <p>${data.daily[tomorrow.getDay()].weather[0].description}</p>
-  //             <div class="img-degree-container">
-  //               <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
-  //                 data.current.weather[0].icon
-  //               }@4x.png" alt = "${data.current.weather[0].description}"/>
-  //               <p class = "day-description">${
-  //                 data.daily[tomorrow.getDay()].temp.day
-  //               }/${data.daily[tomorrow.getDay()].temp.night}°C</p>
-  //             </div>
-  //           </div>
-  //           <div class="day">
-  //             <h1>${
-  //               dayNames[tomorrowplus.getDay()] +
-  //               ", " +
-  //               tomorrowplus.getDate() +
-  //               " " +
-  //               monthNames[tomorrowplus.getMonth()]
-  //             }</h1>
+  //   fetch(url1)
+  //     .then((response) => {
+  //       if (!response.ok) throw new Error(response.statusText);
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       console.log(data);
+  //       //weatherGenerator(data);
+  //     })
+  //     .catch(console.err);
+  // })
 
-  //             <p>${data.daily[tomorrowplus.getDay()].weather[0].description}</p>
-  //             <div class="img-degree-container">
-  //               <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
-  //                 data.current.weather[0].icon
-  //               }@4x.png" alt = "${data.current.weather[0].description}"/>
-  //               <p class = "day-description">${
-  //                 data.daily[tomorrowplus.getDay()].temp.day
-  //               }/${data.daily[tomorrowplus.getDay()].temp.night}°C</p>
-  //             </div>
-  //           </div>
-  // `;
+  // AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs
+
   secondaryDetails.innerHTML = templateHTMLsecondary;
 }
+
+// WITH NAME
+fetch(
+  "https://maps.googleapis.com/maps/api/geocode/json?address=Berlin,+Germany&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs"
+)
+  .then((response) => {
+    if (!response.ok) throw new Error(response.statusText);
+    return response.json();
+  })
+  .then((data) => {
+    console.log(data);
+    openWeatherCall(
+      data.results[0].geometry.location.lat,
+      data.results[0].geometry.location.lng
+    );
+  })
+  .catch(console.err);
