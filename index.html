@@ -69,12 +69,37 @@
         </header>
       </section>
       <section class="hero-section"></section>
-      <section class="user-location gray-color">
-        <div class="flex-columns-container">
-          <h1>Weatify</h1>
-          <h2>Everywhere, everytime.</h2>
-          <p>The best weather website. Powered by Ali Ahmadli.</p>
-          <button class="hero-buttons hero-search">Search</button>
+      <section class="user-location gray-color background">
+        <div class="flex-columns-container flex-columns-container-before">
+          <h1 class="weatify-text">Weatify</h1>
+          <h2 class="important-text">Everywhere, everytime.</h2>
+          <p class="hero-p">
+            The best weather website. Powered by Ali Ahmadli.
+          </p>
+          <div style="display: inline-block">
+            <div class="hero-search-container">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="rgb(169, 169, 169)"
+                class="w-6 h-6 search-icon hero-search-icon"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                />
+              </svg>
+              <input
+                type="text"
+                class="search-bar hero-search-bar search-bar1"
+                placeholder="Berlin, Germany"
+              />
+              <button class="search search1">Search</button>
+            </div>
+          </div>
           <button class="hero-buttons hero-current">
             Use current location
           </button>

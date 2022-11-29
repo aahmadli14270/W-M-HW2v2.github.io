@@ -97,6 +97,50 @@ body {
   align-items: center;
 }
 
+.flex-columns-container-before {
+  margin-left: 4rem;
+}
+
+.hero-search-container {
+  display: grid;
+  grid-template-columns: 0.1fr 1fr 0.5fr;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-search-bar {
+  background-color: rgb(235, 235, 235);
+  border: none;
+  font-size: 1.6rem;
+  height: 3rem;
+  width: 23rem;
+}
+.background {
+  background-image: url(background.jpg);
+  background-position: center;
+  background-size: cover;
+}
+
+.hero-search-icon {
+  margin-left: 0;
+}
+
+.weatify-text {
+  font-size: 9rem;
+  color: #fff;
+  padding-bottom: 4rem;
+}
+
+.important-text {
+  font-size: 3.6rem;
+  color: #fff;
+}
+
+.hero-p {
+  font-size: 1.6rem;
+  color: #fff;
+}
+
 .flex-columns-container-addup {
   /* display: flex;
   direction: row; */

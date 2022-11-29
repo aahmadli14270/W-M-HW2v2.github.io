@@ -11,21 +11,51 @@ tomorrowplus.setDate(temp.getDate() + 2);
 tomorrowplusplus.setDate(temp.getDate() + 3);
 
 const searchbar = document.querySelector(".search-bar");
+const searchbar1 = document.querySelector(".search-bar1");
 const searchbutton = document.querySelector(".search");
-const herosearch = document.querySelector(".hero-current");
+const searchbutton1 = document.querySelector(".search1");
+const herocurrent = document.querySelector(".hero-current");
+const flexColumn = document.querySelector(".flex-columns-container");
 
 let searchforAPI = "";
 
-searchbutton.addEventListener("submit", (e) => {});
+searchbutton1.addEventListener("click", (e) => {
+  console.log("clicked");
+  searchforAPI = searchbar1.value;
+  let template = searchforAPI.replaceAll(" ", "+");
+  console.log(searchforAPI.replaceAll(" ", "+"));
+
+  flexColumn.classList.add("flex-columns-container-addup");
+  flexColumn.classList.remove("flex-columns-container-before");
+  flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
+          <div
+            class="user-columns border-right secondary-weather-details"
+          ></div>
+          <div class="user-columns" id="map"></div>
+        </div>`;
+
+  fetch(
+    `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
+  )
+    .then((response) => {
+      if (!response.ok) throw new Error(response.statusText);
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      openWeatherCall(
+        data.results[0].geometry.location.lat,
+        data.results[0].geometry.location.lng
+      );
+    })
+    .catch(console.err);
+});
 
 searchbutton.addEventListener("click", (e) => {
+  console.log("clicked");
   searchforAPI = searchbar.value;
   let template = searchforAPI.replaceAll(" ", "+");
   console.log(searchforAPI.replaceAll(" ", "+"));
-  // for (let i = 0; i < template.length; i++) {
-  //   if ((template[i + 1] = "+")) {
-  //   }
-  // }
 
   fetch(
     `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
@@ -72,12 +102,11 @@ const dayNames = [
 
 console.log(date3D);
 
-herosearch.addEventListener("click", (e) => {
+herocurrent.addEventListener("click", (e) => {
   navigator.geolocation.getCurrentPosition(
     function (position) {
-      const flexColumn = document.querySelector(".flex-columns-container");
-
       flexColumn.classList.add("flex-columns-container-addup");
+      flexColumn.classList.remove("flex-columns-container-before");
       flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
           <div
             class="user-columns border-right secondary-weather-details"
@@ -102,7 +131,7 @@ herosearch.addEventListener("click", (e) => {
         .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
         .openPopup();
 
-      console.log(openWeatherCall(latitude, longitude));
+      openWeatherCall(latitude, longitude);
       // https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
     },
     function () {
@@ -111,159 +140,156 @@ herosearch.addEventListener("click", (e) => {
       );
     }
   );
+});
 
-  function openWeatherCall(latitude, longitude) {
-    let lat = latitude;
-    let lon = longitude;
-    let units = "metric";
-    let lang = "en";
-    let key = "5209b666803238e6492b0f84bb620f41";
-    let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${key}&units=${units}&lang=${lang}`;
-    //let url = `https://api.openweathermap.org/data/2.5/onecall?lat=40.405520074042514&lon=49.844963102044325&appid=51a6bf5e7efb2ebbc1b35e2519d42ff1&units=metric&lang=en`;
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) throw new Error(response.statusText);
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        weatherGenerator(data);
-      })
-      .catch(console.err);
-  }
+function openWeatherCall(latitude, longitude) {
+  let lat = latitude;
+  let lon = longitude;
+  let units = "metric";
+  let lang = "en";
+  let key = "5209b666803238e6492b0f84bb620f41";
+  let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${key}&units=${units}&lang=${lang}`;
+  //let url = `https://api.openweathermap.org/data/2.5/onecall?lat=40.405520074042514&lon=49.844963102044325&appid=51a6bf5e7efb2ebbc1b35e2519d42ff1&units=metric&lang=en`;
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) throw new Error(response.statusText);
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      weatherGenerator(data);
+    })
+    .catch(console.err);
+}
 
-  function weatherGenerator(data) {
-    const mainDetails = document.querySelector(".main-weather-details");
+function weatherGenerator(data) {
+  const mainDetails = document.querySelector(".main-weather-details");
 
-    let templateHTML = `
-  <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${data.current.weather[0].icon}@4x.png" alt = "${data.current.weather[0].description}">
-    <p class = "property">humidity: ${data.current.humidity}</p>
-    <p class = "property">pressure: ${data.current.pressure}</p>
-    <p class = "property">sunrise: ${data.current.sunrise}</p>
-    <p class = "property">timezone: ${data.timezone}</p>
-    `;
+  let templateHTML = `
+<img class = "cloud-img" src = "http://openweathermap.org/img/wn/${data.current.weather[0].icon}@4x.png" alt = "${data.current.weather[0].description}">
+  <p class = "property">humidity: ${data.current.humidity}</p>
+  <p class = "property">pressure: ${data.current.pressure}</p>
+  <p class = "property">sunrise: ${data.current.sunrise}</p>
+  <p class = "property">timezone: ${data.timezone}</p>
+  `;
 
-    mainDetails.innerHTML = templateHTML;
-    const secondaryDetails = document.querySelector(
-      ".secondary-weather-details"
-    );
+  mainDetails.innerHTML = templateHTML;
+  const secondaryDetails = document.querySelector(".secondary-weather-details");
 
-    let templateHTMLsecondary = `
+  let templateHTMLsecondary = `
 
-            <div class="day">
-              <h1 class="date">${
-                dayNames[tomorrow.getDay()] +
-                ", " +
-                tomorrow.getDate() +
-                " " +
-                monthNames[tomorrow.getMonth()]
-              }</h1>
-              <div class="details">
-                <!-- <p class="detail">Feels like 7°C. Light rain. Light breeze</p> -->
-                <p class="detail">Humidity:  ${
-                  data.daily[tomorrow.getDay()].humidity
-                }%</p>
-                <p class="detail">Pressure: ${
-                  data.daily[tomorrow.getDay()].pressure
-                } hPa</p>
-                <p class="detail">Clouds: ${
-                  data.daily[tomorrow.getDay()].clouds
-                }%</p>
-                <p class="detail">Wind: ${
-                  data.daily[tomorrow.getDay()].wind_speed
-                } m/s NNW</p>
-                <!-- <p class="detail">UV: 0</p> -->
-              </div>
-              <div class="img-degree-container">
-              <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
-                data.daily[tomorrow.getDay()].weather[0].icon
-              }@4x.png" alt = "${
-      data.daily[tomorrow.getDay()].weather[0].description
-    }"/>
-  <p class="temp">${Math.round(
-    data.daily[tomorrow.getDay()].temp.day
-  )} / ${Math.round(data.daily[tomorrow.getDay()].temp.night)} °C</p>
-              </div>
-            </div>
-            <div class="day">
-              <h1 class="date">${
-                dayNames[tomorrowplus.getDay()] +
-                ", " +
-                tomorrowplus.getDate() +
-                " " +
-                monthNames[tomorrowplus.getMonth()]
-              }</h1>
-
-              <div class="details">
-                <!-- <p class="detail">Feels like 7°C. Light rain. Light breeze</p> -->
-                <p class="detail">Humidity:  ${
-                  data.daily[tomorrowplus.getDay()].humidity
-                }%</p>
-                <p class="detail">Pressure: ${
-                  data.daily[tomorrowplus.getDay()].pressure
-                } hPa</p>
-                <p class="detail">Clouds: ${
-                  data.daily[tomorrowplus.getDay()].clouds
-                }%</p>
-                <p class="detail">Wind: ${
-                  data.daily[tomorrowplus.getDay()].wind_speed
-                } m/s SSE</p>
-                <!-- <p class="detail">UV: 0</p> -->
-              </div>
-              <div class="img-degree-container">
-              <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
-                data.daily[tomorrowplus.getDay()].weather[0].icon
-              }@4x.png" alt = "${
-      data.daily[tomorrowplus.getDay()].weather[0].description
-    }"/>
-                <p class="temp">${Math.round(
-                  data.daily[tomorrowplus.getDay()].temp.day
-                )} / ${Math.round(
-      data.daily[tomorrowplus.getDay()].temp.night
-    )} °C</p>
-              </div>
-            </div>
-
-            <div class="day">
+          <div class="day">
             <h1 class="date">${
-              dayNames[tomorrowplusplus.getDay()] +
+              dayNames[tomorrow.getDay()] +
               ", " +
-              tomorrowplusplus.getDate() +
+              tomorrow.getDate() +
               " " +
-              monthNames[tomorrowplusplus.getMonth()]
+              monthNames[tomorrow.getMonth()]
             }</h1>
             <div class="details">
               <!-- <p class="detail">Feels like 7°C. Light rain. Light breeze</p> -->
               <p class="detail">Humidity:  ${
-                data.daily[tomorrowplusplus.getDay()].humidity
+                data.daily[tomorrow.getDay()].humidity
               }%</p>
               <p class="detail">Pressure: ${
-                data.daily[tomorrowplusplus.getDay()].pressure
+                data.daily[tomorrow.getDay()].pressure
               } hPa</p>
               <p class="detail">Clouds: ${
-                data.daily[tomorrowplusplus.getDay()].clouds
+                data.daily[tomorrow.getDay()].clouds
               }%</p>
               <p class="detail">Wind: ${
-                data.daily[tomorrowplusplus.getDay()].wind_speed
-              } m/s WSW</p>
+                data.daily[tomorrow.getDay()].wind_speed
+              } m/s NNW</p>
               <!-- <p class="detail">UV: 0</p> -->
             </div>
             <div class="img-degree-container">
             <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
-              data.daily[tomorrowplusplus.getDay()].weather[0].icon
+              data.daily[tomorrow.getDay()].weather[0].icon
             }@4x.png" alt = "${
-      data.daily[tomorrowplusplus.getDay()].weather[0].description
-    }"/>
-  <p class="temp">${Math.round(
-    data.daily[tomorrowplusplus.getDay()].temp.day
-  )} / ${Math.round(data.daily[tomorrowplusplus.getDay()].temp.night)} °C</p>
+    data.daily[tomorrow.getDay()].weather[0].description
+  }"/>
+<p class="temp">${Math.round(
+    data.daily[tomorrow.getDay()].temp.day
+  )} / ${Math.round(data.daily[tomorrow.getDay()].temp.night)} °C</p>
+            </div>
+          </div>
+          <div class="day">
+            <h1 class="date">${
+              dayNames[tomorrowplus.getDay()] +
+              ", " +
+              tomorrowplus.getDate() +
+              " " +
+              monthNames[tomorrowplus.getMonth()]
+            }</h1>
+
+            <div class="details">
+              <!-- <p class="detail">Feels like 7°C. Light rain. Light breeze</p> -->
+              <p class="detail">Humidity:  ${
+                data.daily[tomorrowplus.getDay()].humidity
+              }%</p>
+              <p class="detail">Pressure: ${
+                data.daily[tomorrowplus.getDay()].pressure
+              } hPa</p>
+              <p class="detail">Clouds: ${
+                data.daily[tomorrowplus.getDay()].clouds
+              }%</p>
+              <p class="detail">Wind: ${
+                data.daily[tomorrowplus.getDay()].wind_speed
+              } m/s SSE</p>
+            </div>
+            <div class="img-degree-container">
+            <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
+              data.daily[tomorrowplus.getDay()].weather[0].icon
+            }@4x.png" alt = "${
+    data.daily[tomorrowplus.getDay()].weather[0].description
+  }"/>
+              <p class="temp">${Math.round(
+                data.daily[tomorrowplus.getDay()].temp.day
+              )} / ${Math.round(
+    data.daily[tomorrowplus.getDay()].temp.night
+  )} °C</p>
             </div>
           </div>
 
-  `;
-    secondaryDetails.innerHTML = templateHTMLsecondary;
-  }
-});
+          <div class="day">
+          <h1 class="date">${
+            dayNames[tomorrowplusplus.getDay()] +
+            ", " +
+            tomorrowplusplus.getDate() +
+            " " +
+            monthNames[tomorrowplusplus.getMonth()]
+          }</h1>
+          <div class="details">
+            <!-- <p class="detail">Feels like 7°C. Light rain. Light breeze</p> -->
+            <p class="detail">Humidity:  ${
+              data.daily[tomorrowplusplus.getDay()].humidity
+            }%</p>
+            <p class="detail">Pressure: ${
+              data.daily[tomorrowplusplus.getDay()].pressure
+            } hPa</p>
+            <p class="detail">Clouds: ${
+              data.daily[tomorrowplusplus.getDay()].clouds
+            }%</p>
+            <p class="detail">Wind: ${
+              data.daily[tomorrowplusplus.getDay()].wind_speed
+            } m/s WSW</p>
+            <!-- <p class="detail">UV: 0</p> -->
+          </div>
+          <div class="img-degree-container">
+          <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
+            data.daily[tomorrowplusplus.getDay()].weather[0].icon
+          }@4x.png" alt = "${
+    data.daily[tomorrowplusplus.getDay()].weather[0].description
+  }"/>
+<p class="temp">${Math.round(
+    data.daily[tomorrowplusplus.getDay()].temp.day
+  )} / ${Math.round(data.daily[tomorrowplusplus.getDay()].temp.night)} °C</p>
+          </div>
+        </div>
+
+`;
+  secondaryDetails.innerHTML = templateHTMLsecondary;
+}
 
 //
 //   let units1 = "metric";
