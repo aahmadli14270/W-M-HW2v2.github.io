@@ -10,6 +10,38 @@ tomorrow.setDate(temp.getDate() + 1);
 tomorrowplus.setDate(temp.getDate() + 2);
 tomorrowplusplus.setDate(temp.getDate() + 3);
 
+const searchbar = document.querySelector(".search-bar");
+const searchbutton = document.querySelector(".search");
+let searchforAPI = "";
+
+searchbutton.addEventListener("submit", (e) => {});
+
+searchbutton.addEventListener("click", (e) => {
+  searchforAPI = searchbar.value;
+  let template = searchforAPI.replaceAll(" ", "+");
+  console.log(searchforAPI.replaceAll(" ", "+"));
+  // for (let i = 0; i < template.length; i++) {
+  //   if ((template[i + 1] = "+")) {
+  //   }
+  // }
+
+  fetch(
+    `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
+  )
+    .then((response) => {
+      if (!response.ok) throw new Error(response.statusText);
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      openWeatherCall(
+        data.results[0].geometry.location.lat,
+        data.results[0].geometry.location.lng
+      );
+    })
+    .catch(console.err);
+});
+
 const flag = 0;
 const monthNames = [
   "January",
@@ -239,18 +271,18 @@ function weatherGenerator(data) {
 }
 
 // WITH NAME
-fetch(
-  "https://maps.googleapis.com/maps/api/geocode/json?address=Berlin,+Germany&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs"
-)
-  .then((response) => {
-    if (!response.ok) throw new Error(response.statusText);
-    return response.json();
-  })
-  .then((data) => {
-    console.log(data);
-    openWeatherCall(
-      data.results[0].geometry.location.lat,
-      data.results[0].geometry.location.lng
-    );
-  })
-  .catch(console.err);
+// fetch(
+//   "https://maps.googleapis.com/maps/api/geocode/json?address=Berlin,+Germany&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs"
+// )
+//   .then((response) => {
+//     if (!response.ok) throw new Error(response.statusText);
+//     return response.json();
+//   })
+//   .then((data) => {
+//     console.log(data);
+//     openWeatherCall(
+//       data.results[0].geometry.location.lat,
+//       data.results[0].geometry.location.lng
+//     );
+//   })
+//   .catch(console.err);
