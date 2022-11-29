@@ -1,5 +1,39 @@
 "use strict";
 
+const date3D = new Date();
+const temp = new Date();
+const tomorrow = new Date();
+
+const tomorrowplus = new Date();
+tomorrow.setDate(temp.getDate() + 1);
+tomorrowplus.setDate(temp.getDate() + 2);
+
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const dayNames = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
+console.log(date3D);
 navigator.geolocation.getCurrentPosition(
   function (position) {
     // console.log(position);
@@ -65,26 +99,57 @@ function weatherGenerator(data) {
 
   let templateHTMLsecondary = `
             <div class="day">
-              <h1>Tomorrow, Nov 26</h1>
+              <h1>${
+                dayNames[date3D.getDay()] +
+                ", " +
+                date3D.getDate() +
+                " " +
+                monthNames[date3D.getMonth()]
+              }</h1>
               <div class="img-degree-container">
-                <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${data.current.weather[0].icon}@4x.png" alt = "${data.current.weather[0].description}"/>
-                <p>13/8°C</p>
+                <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
+                  data.current.weather[0].icon
+                }@4x.png" alt = "${data.current.weather[0].description}"/>
+                <p>${data.daily[date3D.getDay()].temp.day}/${
+    data.daily[date3D.getDay()].temp.night
+  }°C</p>
+              </div>
+              <p>light rain</p>
+            </div>
+            
+            <div class="day">
+              <h1>${
+                dayNames[tomorrow.getDay()] +
+                ", " +
+                tomorrow.getDate() +
+                " " +
+                monthNames[tomorrow.getMonth()]
+              }</h1>
+              <div class="img-degree-container">
+                <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
+                  data.current.weather[0].icon
+                }@4x.png" alt = "${data.current.weather[0].description}"/>
+                <p>${data.daily[tomorrow.getDay()].temp.day}/${
+    data.daily[tomorrow.getDay()].temp.night
+  }°C</p>
               </div>
               <p>light rain</p>
             </div>
             <div class="day">
-              <h1>Tomorrow, Nov 26</h1>
+              <h1>${
+                dayNames[tomorrowplus.getDay()] +
+                ", " +
+                tomorrowplus.getDate() +
+                " " +
+                monthNames[tomorrowplus.getMonth()]
+              }</h1>
               <div class="img-degree-container">
-                <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${data.current.weather[0].icon}@4x.png" alt = "${data.current.weather[0].description}"/>
-                <p>13/8°C</p>
-              </div>
-              <p>light rain</p>
-            </div>
-            <div class="day">
-              <h1>Tomorrow, Nov 26</h1>
-              <div class="img-degree-container">
-                <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${data.current.weather[0].icon}@4x.png" alt = "${data.current.weather[0].description}"/>
-                <p>13/8°C</p>
+                <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
+                  data.current.weather[0].icon
+                }@4x.png" alt = "${data.current.weather[0].description}"/>
+                <p>${data.daily[tomorrowplus.getDay()].temp.day}/${
+    data.daily[tomorrowplus.getDay()].temp.night
+  }°C</p>
               </div>
               <p>light rain</p>
             </div>
