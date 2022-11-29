@@ -20,106 +20,110 @@ const flexColumn = document.querySelector(".flex-columns-container");
 let searchforAPI = "";
 
 searchbutton1.addEventListener("click", (e) => {
-  console.log("clicked");
-  searchforAPI = searchbar1.value;
-  let template = searchforAPI.replaceAll(" ", "+");
-  console.log(searchforAPI.replaceAll(" ", "+"));
+  if (String(searchbar1.value).trim()) {
+    console.log("clicked");
+    searchforAPI = searchbar1.value;
+    let template = searchforAPI.replaceAll(" ", "+");
+    console.log(searchforAPI.replaceAll(" ", "+"));
 
-  flexColumn.classList.add("flex-columns-container-addup");
-  flexColumn.classList.remove("flex-columns-container-before");
-  flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
+    flexColumn.classList.add("flex-columns-container-addup");
+    flexColumn.classList.remove("flex-columns-container-before");
+    flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
           <div
             class="user-columns border-right secondary-weather-details"
           ></div>
           <div class="user-columns" id="map"></div>
         </div>`;
 
-  fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
-  )
-    .then((response) => {
-      if (!response.ok) throw new Error(response.statusText);
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      openWeatherCall(
-        data.results[0].geometry.location.lat,
-        data.results[0].geometry.location.lng
-      );
-      const map = L.map("map").setView(
-        [
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
+    )
+      .then((response) => {
+        if (!response.ok) throw new Error(response.statusText);
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        openWeatherCall(
+          data.results[0].geometry.location.lat,
+          data.results[0].geometry.location.lng
+        );
+        const map = L.map("map").setView(
+          [
+            data.results[0].geometry.location.lat,
+            data.results[0].geometry.location.lng,
+          ],
+          6
+        );
+
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        L.marker([
           data.results[0].geometry.location.lat,
           data.results[0].geometry.location.lng,
-        ],
-        6
-      );
-
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
-
-      L.marker([
-        data.results[0].geometry.location.lat,
-        data.results[0].geometry.location.lng,
-      ])
-        .addTo(map)
-        .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
-        .openPopup();
-    })
-    .catch(console.err);
+        ])
+          .addTo(map)
+          .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
+          .openPopup();
+      })
+      .catch(console.err);
+  }
 });
 
 searchbutton.addEventListener("click", (e) => {
-  console.log("clicked");
-  searchforAPI = searchbar.value;
-  let template = searchforAPI.replaceAll(" ", "+");
-  console.log(searchforAPI.replaceAll(" ", "+"));
-  flexColumn.classList.add("flex-columns-container-addup");
-  flexColumn.classList.remove("flex-columns-container-before");
-  flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
+  if (String(searchbar.value).trim()) {
+    console.log("clicked");
+    searchforAPI = searchbar.value;
+    let template = searchforAPI.replaceAll(" ", "+");
+    console.log(searchforAPI.replaceAll(" ", "+"));
+    flexColumn.classList.add("flex-columns-container-addup");
+    flexColumn.classList.remove("flex-columns-container-before");
+    flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
           <div
             class="user-columns border-right secondary-weather-details"
           ></div>
           <div class="user-columns" id="map"></div>
         </div>`;
 
-  fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
-  )
-    .then((response) => {
-      if (!response.ok) throw new Error(response.statusText);
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      openWeatherCall(
-        data.results[0].geometry.location.lat,
-        data.results[0].geometry.location.lng
-      );
-      const map = L.map("map").setView(
-        [
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
+    )
+      .then((response) => {
+        if (!response.ok) throw new Error(response.statusText);
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        openWeatherCall(
+          data.results[0].geometry.location.lat,
+          data.results[0].geometry.location.lng
+        );
+        const map = L.map("map").setView(
+          [
+            data.results[0].geometry.location.lat,
+            data.results[0].geometry.location.lng,
+          ],
+          6
+        );
+
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        L.marker([
           data.results[0].geometry.location.lat,
           data.results[0].geometry.location.lng,
-        ],
-        6
-      );
-
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
-
-      L.marker([
-        data.results[0].geometry.location.lat,
-        data.results[0].geometry.location.lng,
-      ])
-        .addTo(map)
-        .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
-        .openPopup();
-    })
-    .catch(console.err);
+        ])
+          .addTo(map)
+          .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
+          .openPopup();
+      })
+      .catch(console.err);
+  }
 });
 
 const flag = 0;
