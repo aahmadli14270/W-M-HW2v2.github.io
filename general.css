@@ -38,6 +38,11 @@ body {
   align-items: center;
 }
 
+.section2 {
+  justify-self: left;
+  padding-left: 1.5rem;
+}
+
 .search-container {
   display: grid;
   grid-template-columns: 0.1fr 1fr 0.5fr;
@@ -136,6 +141,11 @@ body {
   border-radius: 5px;
   cursor: pointer;
   background-color: #ffd43b;
+}
+
+.button-nav-current {
+  height: 3rem;
+  margin-top: 0rem;
 }
 
 .hero-current:hover {

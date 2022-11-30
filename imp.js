@@ -41,6 +41,7 @@ const searchbar1 = document.querySelector(".search-bar1");
 const searchbutton = document.querySelector(".search");
 const searchbutton1 = document.querySelector(".search1");
 const herocurrent = document.querySelector(".hero-current");
+const herocurrentall = document.querySelectorAll(".hero-current");
 const flexColumn = document.querySelector(".flex-columns-container");
 const userlocation = document.querySelector(".user-location");
 let searchforAPI = "";
@@ -157,47 +158,91 @@ searchbutton.addEventListener("click", (e) => {
   }
 });
 
-herocurrent.addEventListener("click", (e) => {
-  navigator.geolocation.getCurrentPosition(
-    function (position) {
-      userlocation.classList.add("user-location-addup");
-      flexColumn.classList.add("flex-columns-container-addup");
-      flexColumn.classList.remove("flex-columns-container-before");
-      userlocation.classList.remove("background");
-      flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
-          <div
-            class="user-columns border-right secondary-weather-details"
-          ></div>
-          <div class="user-columns" id="map"></div>
-        </div>`;
+herocurrentall.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        userlocation.classList.add("user-location-addup");
+        flexColumn.classList.add("flex-columns-container-addup");
+        flexColumn.classList.remove("flex-columns-container-before");
+        userlocation.classList.remove("background");
+        flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
+            <div
+              class="user-columns border-right secondary-weather-details"
+            ></div>
+            <div class="user-columns" id="map"></div>
+          </div>`;
 
-      // console.log(position);
-      const { latitude } = position.coords;
-      const { longitude } = position.coords;
-      console.log(latitude, longitude);
+        // console.log(position);
+        const { latitude } = position.coords;
+        const { longitude } = position.coords;
+        console.log(latitude, longitude);
 
-      const map = L.map("map").setView([latitude, longitude], 6);
+        const map = L.map("map").setView([latitude, longitude], 6);
 
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }).addTo(map);
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
 
-      L.marker([latitude, longitude])
-        .addTo(map)
-        .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
-        .openPopup();
+        L.marker([latitude, longitude])
+          .addTo(map)
+          .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
+          .openPopup();
 
-      openWeatherCall(latitude, longitude);
-      // https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
-    },
-    function () {
-      alert(
-        "Couldn't get your current location... Please give location permission."
-      );
-    }
-  );
+        openWeatherCall(latitude, longitude);
+        // https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+      },
+      function () {
+        alert(
+          "Couldn't get your current location... Please give location permission."
+        );
+      }
+    );
+  });
 });
+
+// herocurrent.addEventListener("click", (e) => {
+//   navigator.geolocation.getCurrentPosition(
+//     function (position) {
+//       userlocation.classList.add("user-location-addup");
+//       flexColumn.classList.add("flex-columns-container-addup");
+//       flexColumn.classList.remove("flex-columns-container-before");
+//       userlocation.classList.remove("background");
+//       flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
+//           <div
+//             class="user-columns border-right secondary-weather-details"
+//           ></div>
+//           <div class="user-columns" id="map"></div>
+//         </div>`;
+
+//       // console.log(position);
+//       const { latitude } = position.coords;
+//       const { longitude } = position.coords;
+//       console.log(latitude, longitude);
+
+//       const map = L.map("map").setView([latitude, longitude], 6);
+
+//       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+//         attribution:
+//           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+//       }).addTo(map);
+
+//       L.marker([latitude, longitude])
+//         .addTo(map)
+//         .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
+//         .openPopup();
+
+//       openWeatherCall(latitude, longitude);
+//       // https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+//     },
+//     function () {
+//       alert(
+//         "Couldn't get your current location... Please give location permission."
+//       );
+//     }
+//   );
+// });
 
 function openWeatherCall(latitude, longitude) {
   let lat = latitude;
