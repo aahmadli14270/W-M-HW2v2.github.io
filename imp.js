@@ -10,13 +10,39 @@ tomorrow.setDate(temp.getDate() + 1);
 tomorrowplus.setDate(temp.getDate() + 2);
 tomorrowplusplus.setDate(temp.getDate() + 3);
 
+const flag = 0;
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const dayNames = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
 const searchbar = document.querySelector(".search-bar");
 const searchbar1 = document.querySelector(".search-bar1");
 const searchbutton = document.querySelector(".search");
 const searchbutton1 = document.querySelector(".search1");
 const herocurrent = document.querySelector(".hero-current");
 const flexColumn = document.querySelector(".flex-columns-container");
-
+const userlocation = document.querySelector(".user-location");
 let searchforAPI = "";
 
 searchbutton1.addEventListener("click", (e) => {
@@ -25,9 +51,11 @@ searchbutton1.addEventListener("click", (e) => {
     searchforAPI = searchbar1.value;
     let template = searchforAPI.replaceAll(" ", "+");
     console.log(searchforAPI.replaceAll(" ", "+"));
-
+    userlocation.classList.add("user-location-addup");
+    userlocation.classList.remove("background");
     flexColumn.classList.add("flex-columns-container-addup");
     flexColumn.classList.remove("flex-columns-container-before");
+
     flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
           <div
             class="user-columns border-right secondary-weather-details"
@@ -79,8 +107,11 @@ searchbutton.addEventListener("click", (e) => {
     searchforAPI = searchbar.value;
     let template = searchforAPI.replaceAll(" ", "+");
     console.log(searchforAPI.replaceAll(" ", "+"));
+    userlocation.classList.add("user-location-addup");
+    userlocation.classList.remove("background");
     flexColumn.classList.add("flex-columns-container-addup");
     flexColumn.classList.remove("flex-columns-container-before");
+
     flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
           <div
             class="user-columns border-right secondary-weather-details"
@@ -126,39 +157,13 @@ searchbutton.addEventListener("click", (e) => {
   }
 });
 
-const flag = 0;
-const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-const dayNames = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
-
-console.log(date3D);
-
 herocurrent.addEventListener("click", (e) => {
   navigator.geolocation.getCurrentPosition(
     function (position) {
+      userlocation.classList.add("user-location-addup");
       flexColumn.classList.add("flex-columns-container-addup");
       flexColumn.classList.remove("flex-columns-container-before");
+      userlocation.classList.remove("background");
       flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
           <div
             class="user-columns border-right secondary-weather-details"
@@ -232,7 +237,11 @@ function weatherGenerator(data) {
 
           <div class="day">
             <h1 class="date">${
-              dayNames[tomorrow.getDay() - 1] +
+              dayNames[
+                tomorrow.getDay() > 0
+                  ? tomorrow.getDay() - 1
+                  : dayNames.length - 1
+              ] +
               ", " +
               tomorrow.getDate() +
               " " +
@@ -267,7 +276,11 @@ function weatherGenerator(data) {
           </div>
           <div class="day">
             <h1 class="date">${
-              dayNames[tomorrowplus.getDay() - 1] +
+              dayNames[
+                tomorrowplusplus.getDay() > 0
+                  ? tomorrowplusplus.getDay() - 1
+                  : dayNames.length - 1
+              ] +
               ", " +
               tomorrowplus.getDate() +
               " " +
@@ -305,7 +318,11 @@ function weatherGenerator(data) {
 
           <div class="day">
           <h1 class="date">${
-            dayNames[tomorrowplusplus.getDay() - 1] +
+            dayNames[
+              tomorrowplusplus.getDay() > 0
+                ? tomorrowplusplus.getDay() - 1
+                : dayNames.length - 1
+            ] +
             ", " +
             tomorrowplusplus.getDate() +
             " " +
