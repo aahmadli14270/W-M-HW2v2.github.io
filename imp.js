@@ -48,6 +48,7 @@ const herocurrent = document.querySelector(".hero-current");
 const herocurrentall = document.querySelectorAll(".hero-current");
 const flexColumn = document.querySelector(".flex-columns-container");
 const userlocation = document.querySelector(".user-location");
+let locationinfo = null;
 let searchforAPI = "";
 
 searchbuttonall.forEach((button) => {
@@ -66,12 +67,16 @@ searchbuttonall.forEach((button) => {
       flexColumn.classList.add("flex-columns-container-addup");
       flexColumn.classList.remove("flex-columns-container-before");
 
-      flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
+      flexColumn.innerHTML = `
+      <div class = "locationinfo"></div>
+      <div class="user-columns border-right main-weather-details"></div>
           <div
             class="user-columns border-right secondary-weather-details"
           ></div>
           <div class="user-columns" id="map"></div>
         </div>`;
+
+      locationinfo = document.querySelector(".locationinfo");
 
       fetch(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
@@ -86,6 +91,9 @@ searchbuttonall.forEach((button) => {
             data.results[0].geometry.location.lat,
             data.results[0].geometry.location.lng
           );
+
+          locationinfo.innerHTML = `<p>${data.results[0].formatted_address}</p>`;
+
           const map = L.map("map").setView(
             [
               data.results[0].geometry.location.lat,
@@ -108,6 +116,7 @@ searchbuttonall.forEach((button) => {
             .openPopup();
         })
         .catch(console.err);
+      console.log(locationinfo);
     }
   });
 });
@@ -120,13 +129,17 @@ herocurrentall.forEach((button) => {
         flexColumn.classList.add("flex-columns-container-addup");
         flexColumn.classList.remove("flex-columns-container-before");
         userlocation.classList.remove("background");
-        flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
+        flexColumn.innerHTML = `
+        <div class = "locationinfo"></div>
+        <div class="user-columns border-right main-weather-details"></div>
             <div
               class="user-columns border-right secondary-weather-details"
             ></div>
             <div class="user-columns" id="map"></div>
           </div>`;
 
+        locationinfo = document.querySelector(".locationinfo");
+        console.log(locationinfo);
         // console.log(position);
         const { latitude } = position.coords;
         const { longitude } = position.coords;
@@ -145,6 +158,20 @@ herocurrentall.forEach((button) => {
           .openPopup();
 
         openWeatherCall(latitude, longitude);
+
+        fetch(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
+        )
+          .then((response) => {
+            if (!response.ok) throw new Error(response.statusText);
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            locationinfo.innerHTML = `<p>${data.results[4].formatted_address}</p>`;
+          })
+          .catch(console.err);
+
         // https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
       },
       function () {
@@ -178,7 +205,6 @@ function openWeatherCall(latitude, longitude) {
 
 function weatherGenerator(data) {
   const mainDetails = document.querySelector(".main-weather-details");
-
   let templateHTML = `
   <h1 class = "main-weather-detail-header">Today</h1>
   <h1 class = "date">${
@@ -189,16 +215,18 @@ function weatherGenerator(data) {
     monthNames[date3D.getMonth()]
   }
   </h1>
-<img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
-    data.current.weather[0].icon
-  }@4x.png" alt = "${data.current.weather[0].description}">
-  <p class="temp">${Math.round(
-    data.daily[date3D.getDay()].temp.day
-  )} / ${Math.round(data.daily[date3D.getDay()].temp.night)} °C</p>
-  <p class = "detail property">humidity: ${data.current.humidity}</p>
-  <p class = "detail property">pressure: ${data.current.pressure}</p>
-  <p class = "detail property">sunrise: ${data.current.sunrise}</p>
-  <p class = "detail property">timezone: ${data.timezone}</p>
+  <div class="img-degree-container img-degree-container-main-details">
+    <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
+      data.current.weather[0].icon
+    }@4x.png" alt = "${data.current.weather[0].description}">
+    <p class="temp">${Math.round(
+      data.daily[date3D.getDay()].temp.day
+    )} / ${Math.round(data.daily[date3D.getDay()].temp.night)} °C</p>
+  </div>
+  <p class = "detail property">Humidity: ${data.current.humidity}</p>
+  <p class = "detail property">Pressure: ${data.current.pressure}</p>
+  <p class = "detail property">Sunrise: ${data.current.sunrise}</p>
+  <p class = "detail property">Timezone: ${data.timezone}</p>
   <p class = "detail property">Wind: ${
     data.daily[date3D.getDay()].wind_speed
   } m/s ${

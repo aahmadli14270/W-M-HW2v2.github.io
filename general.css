@@ -202,8 +202,15 @@ body {
   display: grid;
   grid-template-columns: 0.8fr 1fr 0.8fr;
   height: 45rem;
-
   gap: 2rem;
+  position: relative;
+}
+
+.locationinfo {
+  transform: translate(3rem, -200%);
+  position: absolute;
+  font-size: 2rem;
+  margin-top: 1rem;
 }
 
 .user-columns {
@@ -257,16 +264,24 @@ body {
 }
 
 .main-weather-details {
+  margin-left: 2rem;
+  padding: 3rem;
+  background-color: rgb(235, 235, 235);
+  border-radius: 2rem;
 }
 
 .main-weather-detail-header {
   font-size: 2.2rem;
 }
 
+.img-degree-container-main-details {
+  margin-left: -3rem;
+}
+
 .property {
   font-size: 1.6rem;
-  color: #ced4da;
-  margin-bottom: 2rem;
+  color: #000;
+  padding-bottom: 5rem;
 }
 
 .cloud-img {
