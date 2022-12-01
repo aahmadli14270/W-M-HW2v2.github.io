@@ -77,10 +77,13 @@ searchbuttonall.forEach((button) => {
         </div>`;
 
       locationinfo = document.querySelector(".locationinfo");
+      const tempcoords = template.split("+");
+      console.log(tempcoords);
+      const urlforgapi = /[a-zA-Z]/.test(template)
+        ? `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
+        : `https://maps.googleapis.com/maps/api/geocode/json?latlng=${tempcoords[0]},${tempcoords[1]}&sensor=true&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`;
 
-      fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
-      )
+      fetch(urlforgapi)
         .then((response) => {
           if (!response.ok) throw new Error(response.statusText);
           return response.json();
