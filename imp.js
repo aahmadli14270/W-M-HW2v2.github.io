@@ -10,6 +10,8 @@ tomorrow.setDate(temp.getDate() + 1);
 tomorrowplus.setDate(temp.getDate() + 2);
 tomorrowplusplus.setDate(temp.getDate() + 3);
 
+const directions = ["↑N", "↗NE", "→E", "↘SE", "↓S", "↙SW", "←W", "↖NW"];
+
 const flag = 0;
 const monthNames = [
   "January",
@@ -38,7 +40,9 @@ const dayNames = [
 
 const searchbar = document.querySelector(".search-bar");
 const searchbar1 = document.querySelector(".search-bar1");
+const searchbarAll = document.querySelectorAll(".search-bar");
 const searchbutton = document.querySelector(".search");
+const searchbuttonall = document.querySelectorAll(".search");
 const searchbutton1 = document.querySelector(".search1");
 const herocurrent = document.querySelector(".hero-current");
 const herocurrentall = document.querySelectorAll(".hero-current");
@@ -46,116 +50,66 @@ const flexColumn = document.querySelector(".flex-columns-container");
 const userlocation = document.querySelector(".user-location");
 let searchforAPI = "";
 
-searchbutton1.addEventListener("click", (e) => {
-  if (String(searchbar1.value).trim()) {
-    console.log("clicked");
-    searchforAPI = searchbar1.value;
-    let template = searchforAPI.replaceAll(" ", "+");
-    console.log(searchforAPI.replaceAll(" ", "+"));
-    userlocation.classList.add("user-location-addup");
-    userlocation.classList.remove("background");
-    flexColumn.classList.add("flex-columns-container-addup");
-    flexColumn.classList.remove("flex-columns-container-before");
+searchbuttonall.forEach((button) => {
+  const searchbarboth = button.classList.contains("search1")
+    ? searchbar1
+    : searchbar;
 
-    flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
+  button.addEventListener("click", (e) => {
+    if (String(searchbarboth.value).trim()) {
+      console.log("clicked");
+      searchforAPI = searchbarboth.value;
+      let template = searchforAPI.replaceAll(" ", "+");
+      console.log(searchforAPI.replaceAll(" ", "+"));
+      userlocation.classList.add("user-location-addup");
+      userlocation.classList.remove("background");
+      flexColumn.classList.add("flex-columns-container-addup");
+      flexColumn.classList.remove("flex-columns-container-before");
+
+      flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
           <div
             class="user-columns border-right secondary-weather-details"
           ></div>
           <div class="user-columns" id="map"></div>
         </div>`;
 
-    fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
-    )
-      .then((response) => {
-        if (!response.ok) throw new Error(response.statusText);
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        openWeatherCall(
-          data.results[0].geometry.location.lat,
-          data.results[0].geometry.location.lng
-        );
-        const map = L.map("map").setView(
-          [
+      fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
+      )
+        .then((response) => {
+          if (!response.ok) throw new Error(response.statusText);
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          openWeatherCall(
+            data.results[0].geometry.location.lat,
+            data.results[0].geometry.location.lng
+          );
+          const map = L.map("map").setView(
+            [
+              data.results[0].geometry.location.lat,
+              data.results[0].geometry.location.lng,
+            ],
+            6
+          );
+
+          L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution:
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          }).addTo(map);
+
+          L.marker([
             data.results[0].geometry.location.lat,
             data.results[0].geometry.location.lng,
-          ],
-          6
-        );
-
-        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }).addTo(map);
-
-        L.marker([
-          data.results[0].geometry.location.lat,
-          data.results[0].geometry.location.lng,
-        ])
-          .addTo(map)
-          .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
-          .openPopup();
-      })
-      .catch(console.err);
-  }
-});
-
-searchbutton.addEventListener("click", (e) => {
-  if (String(searchbar.value).trim()) {
-    console.log("clicked");
-    searchforAPI = searchbar.value;
-    let template = searchforAPI.replaceAll(" ", "+");
-    console.log(searchforAPI.replaceAll(" ", "+"));
-    userlocation.classList.add("user-location-addup");
-    userlocation.classList.remove("background");
-    flexColumn.classList.add("flex-columns-container-addup");
-    flexColumn.classList.remove("flex-columns-container-before");
-
-    flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
-          <div
-            class="user-columns border-right secondary-weather-details"
-          ></div>
-          <div class="user-columns" id="map"></div>
-        </div>`;
-
-    fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
-    )
-      .then((response) => {
-        if (!response.ok) throw new Error(response.statusText);
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        openWeatherCall(
-          data.results[0].geometry.location.lat,
-          data.results[0].geometry.location.lng
-        );
-        const map = L.map("map").setView(
-          [
-            data.results[0].geometry.location.lat,
-            data.results[0].geometry.location.lng,
-          ],
-          6
-        );
-
-        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }).addTo(map);
-
-        L.marker([
-          data.results[0].geometry.location.lat,
-          data.results[0].geometry.location.lng,
-        ])
-          .addTo(map)
-          .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
-          .openPopup();
-      })
-      .catch(console.err);
-  }
+          ])
+            .addTo(map)
+            .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
+            .openPopup();
+        })
+        .catch(console.err);
+    }
+  });
 });
 
 herocurrentall.forEach((button) => {
@@ -202,48 +156,6 @@ herocurrentall.forEach((button) => {
   });
 });
 
-// herocurrent.addEventListener("click", (e) => {
-//   navigator.geolocation.getCurrentPosition(
-//     function (position) {
-//       userlocation.classList.add("user-location-addup");
-//       flexColumn.classList.add("flex-columns-container-addup");
-//       flexColumn.classList.remove("flex-columns-container-before");
-//       userlocation.classList.remove("background");
-//       flexColumn.innerHTML = `<div class="user-columns border-right main-weather-details"></div>
-//           <div
-//             class="user-columns border-right secondary-weather-details"
-//           ></div>
-//           <div class="user-columns" id="map"></div>
-//         </div>`;
-
-//       // console.log(position);
-//       const { latitude } = position.coords;
-//       const { longitude } = position.coords;
-//       console.log(latitude, longitude);
-
-//       const map = L.map("map").setView([latitude, longitude], 6);
-
-//       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-//         attribution:
-//           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-//       }).addTo(map);
-
-//       L.marker([latitude, longitude])
-//         .addTo(map)
-//         .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
-//         .openPopup();
-
-//       openWeatherCall(latitude, longitude);
-//       // https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
-//     },
-//     function () {
-//       alert(
-//         "Couldn't get your current location... Please give location permission."
-//       );
-//     }
-//   );
-// });
-
 function openWeatherCall(latitude, longitude) {
   let lat = latitude;
   let lon = longitude;
@@ -268,11 +180,31 @@ function weatherGenerator(data) {
   const mainDetails = document.querySelector(".main-weather-details");
 
   let templateHTML = `
-<img class = "cloud-img" src = "http://openweathermap.org/img/wn/${data.current.weather[0].icon}@4x.png" alt = "${data.current.weather[0].description}">
-  <p class = "property">humidity: ${data.current.humidity}</p>
-  <p class = "property">pressure: ${data.current.pressure}</p>
-  <p class = "property">sunrise: ${data.current.sunrise}</p>
-  <p class = "property">timezone: ${data.timezone}</p>
+  <h1 class = "main-weather-detail-header">Today</h1>
+  <h1 class = "date">${
+    dayNames[date3D.getDay() > 0 ? date3D.getDay() - 1 : dayNames.length - 1] +
+    ", " +
+    date3D.getDate() +
+    " " +
+    monthNames[date3D.getMonth()]
+  }
+  </h1>
+<img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
+    data.current.weather[0].icon
+  }@4x.png" alt = "${data.current.weather[0].description}">
+  <p class="temp">${Math.round(
+    data.daily[date3D.getDay()].temp.day
+  )} / ${Math.round(data.daily[date3D.getDay()].temp.night)} °C</p>
+  <p class = "detail property">humidity: ${data.current.humidity}</p>
+  <p class = "detail property">pressure: ${data.current.pressure}</p>
+  <p class = "detail property">sunrise: ${data.current.sunrise}</p>
+  <p class = "detail property">timezone: ${data.timezone}</p>
+  <p class = "detail property">Wind: ${
+    data.daily[date3D.getDay()].wind_speed
+  } m/s ${
+    directions[Math.round(data.daily[date3D.getDay()].wind_deg / 45) % 8]
+  }</p>
+  <p class = "detail property">UV: 0</p>
   `;
 
   mainDetails.innerHTML = templateHTML;
@@ -305,8 +237,9 @@ function weatherGenerator(data) {
               }%</p>
               <p class="detail">Wind: ${
                 data.daily[tomorrow.getDay()].wind_speed
-              } m/s NNW</p>
-              <!-- <p class="detail">UV: 0</p> -->
+              } m/s ${
+    directions[Math.round(data.daily[tomorrow.getDay()].wind_deg / 45) % 8]
+  }</p>
             </div>
             <div class="img-degree-container">
             <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
@@ -322,8 +255,8 @@ function weatherGenerator(data) {
           <div class="day">
             <h1 class="date">${
               dayNames[
-                tomorrowplusplus.getDay() > 0
-                  ? tomorrowplusplus.getDay() - 1
+                tomorrowplus.getDay() > 0
+                  ? tomorrowplus.getDay() - 1
                   : dayNames.length - 1
               ] +
               ", " +
@@ -345,7 +278,9 @@ function weatherGenerator(data) {
               }%</p>
               <p class="detail">Wind: ${
                 data.daily[tomorrowplus.getDay()].wind_speed
-              } m/s SSE</p>
+              } m/s ${
+    directions[Math.round(data.daily[tomorrowplus.getDay()].wind_deg / 45) % 8]
+  }</p>
             </div>
             <div class="img-degree-container">
             <img class = "cloud-img" src = "http://openweathermap.org/img/wn/${
@@ -386,7 +321,11 @@ function weatherGenerator(data) {
             }%</p>
             <p class="detail">Wind: ${
               data.daily[tomorrowplusplus.getDay()].wind_speed
-            } m/s WSW</p>
+            } m/s ${
+    directions[
+      Math.round(data.daily[tomorrowplusplus.getDay()].wind_deg / 45) % 8
+    ]
+  }</p>
             <!-- <p class="detail">UV: 0</p> -->
           </div>
           <div class="img-degree-container">
@@ -404,40 +343,3 @@ function weatherGenerator(data) {
 `;
   secondaryDetails.innerHTML = templateHTMLsecondary;
 }
-
-//
-//   let units1 = "metric";
-//   let lang1 = "en";
-//   let key1 = "5209b666803238e6492b0f84bb620f41";
-//   let url1 = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.results[0].geometry.location.lat}&lon=${data.results[0].geometry.location.lng}&appid=${key1}&units=${units1}&lang=${lang1}`;
-
-//   fetch(url1)
-//     .then((response) => {
-//       if (!response.ok) throw new Error(response.statusText);
-//       return response.json();
-//     })
-//     .then((data) => {
-//       console.log(data);
-//       //weatherGenerator(data);
-//     })
-//     .catch(console.err);
-// })
-
-// AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs
-
-// WITH NAME
-// fetch(
-//   "https://maps.googleapis.com/maps/api/geocode/json?address=Berlin,+Germany&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs"
-// )
-//   .then((response) => {
-//     if (!response.ok) throw new Error(response.statusText);
-//     return response.json();
-//   })
-//   .then((data) => {
-//     console.log(data);
-//     openWeatherCall(
-//       data.results[0].geometry.location.lat,
-//       data.results[0].geometry.location.lng
-//     );
-//   })
-//   .catch(console.err);
