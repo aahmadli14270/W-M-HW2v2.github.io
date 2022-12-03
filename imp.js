@@ -51,6 +51,11 @@ const userlocation = document.querySelector(".user-location");
 let locationinfo = null;
 let searchforAPI = "";
 
+function extractCoordinates(str) {
+  //return str.split(/[, ]+/);
+  return str.match(/[-]{0,1}[\d]*[.]{0,1}[\d]+/g);
+}
+
 searchbuttonall.forEach((button) => {
   const searchbarboth = button.classList.contains("search1")
     ? searchbar1
@@ -81,7 +86,11 @@ searchbuttonall.forEach((button) => {
       console.log(tempcoords);
       const urlforgapi = /[a-zA-Z]/.test(template)
         ? `https://maps.googleapis.com/maps/api/geocode/json?address=${template}&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`
-        : `https://maps.googleapis.com/maps/api/geocode/json?latlng=${tempcoords[0]},${tempcoords[1]}&sensor=true&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`;
+        : `https://maps.googleapis.com/maps/api/geocode/json?latlng=${
+            extractCoordinates(template)[0]
+          },${
+            extractCoordinates(template)[1]
+          }&sensor=true&key=AIzaSyBxhJWZ5Xs9C8gj2YkCgkQ6KUY31ZE7VYs`;
 
       fetch(urlforgapi)
         .then((response) => {
