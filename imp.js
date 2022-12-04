@@ -111,7 +111,7 @@ searchbuttonall.forEach((button) => {
               data.results[0].geometry.location.lat,
               data.results[0].geometry.location.lng,
             ],
-            6
+            8
           );
 
           L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -122,10 +122,7 @@ searchbuttonall.forEach((button) => {
           L.marker([
             data.results[0].geometry.location.lat,
             data.results[0].geometry.location.lng,
-          ])
-            .addTo(map)
-            .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
-            .openPopup();
+          ]).addTo(map);
         })
         .catch(console.err);
       console.log(locationinfo);
@@ -157,17 +154,14 @@ herocurrentall.forEach((button) => {
         const { longitude } = position.coords;
         console.log(latitude, longitude);
 
-        const map = L.map("map").setView([latitude, longitude], 6);
+        const map = L.map("map").setView([latitude, longitude], 8);
 
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution:
             '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(map);
 
-        L.marker([latitude, longitude])
-          .addTo(map)
-          .bindPopup("A pretty CSS3 popup.<br> Easily customizable.")
-          .openPopup();
+        L.marker([latitude, longitude]).addTo(map);
 
         openWeatherCall(latitude, longitude);
 
@@ -235,16 +229,22 @@ function weatherGenerator(data) {
       data.daily[date3D.getDay()].temp.day
     )} / ${Math.round(data.daily[date3D.getDay()].temp.night)} °C</p>
   </div>
-  <p class = "detail property">Humidity: ${data.current.humidity}</p>
-  <p class = "detail property">Pressure: ${data.current.pressure}</p>
-  <p class = "detail property">Sunrise: ${data.current.sunrise}</p>
+  <p class = "detail property">Real Feel: ${Math.round(
+    data.current.feels_like
+  )} °C</p>  
+  <p class = "detail property">Humidity: ${data.current.humidity}%</p>
+  <p class = "detail property">Pressure: ${data.current.pressure} hPa</p>
+  <p class = "detail property">Clouds: ${data.current.clouds}%</p>
+  <p class = "detail property">Visibility: ${
+    data.current.visibility / 1000
+  } km</p>
   <p class = "detail property">Timezone: ${data.timezone}</p>
   <p class = "detail property">Wind: ${
     data.daily[date3D.getDay()].wind_speed
   } m/s ${
     directions[Math.round(data.daily[date3D.getDay()].wind_deg / 45) % 8]
   }</p>
-  <p class = "detail property">UV: 0</p>
+  <p class = "detail property">UV: ${data.current.uvi}</p>
   `;
 
   mainDetails.innerHTML = templateHTML;
